@@ -1,0 +1,275 @@
+% Don't touch this %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage[left=1in,top=1in,right=1in,bottom=1in,headheight=3ex,headsep=3ex]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+
+\newcommand{\blankline}{\quad\pagebreak[2]}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Modify Course title, instructor name, semester here %%%%%%%%
+
+\title{COMP 5970/6970-004 \\ Computational Biology: Genomics and Transcriptomics}
+\author{Haynes Heaton}
+\date{Spring, 2022}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Don't touch this %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[sc]{mathpazo}
+\linespread{1.05} % Palatino needs more leading (space between lines)
+%\usepackage[T1]{fontenc}
+\usepackage[mmddyyyy]{datetime}% http://ctan.org/pkg/datetime
+\usepackage{advdate}% http://ctan.org/pkg/advdate
+\newdateformat{syldate}{\twodigit{\THEMONTH}/\twodigit{\THEDAY}}
+\newsavebox{\MONDAY}\savebox{\MONDAY}{Mon}% Mon
+\newcommand{\week}[1]{%
+%  \cleardate{mydate}% Clear date
+% \newdate{mydate}{\the\day}{\the\month}{\the\year}% Store date
+  \paragraph*{\kern-2ex\quad #1, \syldate{\today} - \AdvanceDate[4]\syldate{\today}:}% Set heading  \quad #1
+%  \setbox1=\hbox{\shortdayofweekname{\getdateday{mydate}}{\getdatemonth{mydate}}{\getdateyear{mydate}}}%
+  \ifdim\wd1=\wd\MONDAY
+    \AdvanceDate[7]
+  \else
+    \AdvanceDate[7]
+  \fi%
+}
+\usepackage{setspace}
+\usepackage{multicol}
+%\usepackage{indentfirst}
+\usepackage{fancyhdr,lastpage}
+\usepackage{url}
+\pagestyle{fancy}
+\usepackage{hyperref}
+\usepackage{lastpage}
+\usepackage{amsmath}
+\usepackage{layout}
+
+\lhead{}
+\chead{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Modify header here %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\rhead{\footnotesize Text in header}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Don't touch this %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lfoot{}
+\cfoot{\small \thepage/\pageref*{LastPage}}
+\rfoot{}
+
+\usepackage{array, xcolor}
+\usepackage{color,hyperref}
+\definecolor{clemsonorange}{HTML}{EA6A20}
+\hypersetup{colorlinks,breaklinks,linkcolor=clemsonorange,urlcolor=clemsonorange,anchorcolor=clemsonorange,citecolor=black}
+
+\begin{document}
+
+\maketitle
+
+\blankline
+
+\begin{tabular*}{.93\textwidth}{@{\extracolsep{\fill}}lr}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Modify information %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+E-mail: \texttt{HaynesHeaton@auburn.edu} \\%& Web: \href{www4.ncsu.edu/~username}{\tt\bf www4.ncsu.edu/~username}  \\
+Course Discord: \texttt{https://discord.gg/my9hTgndcH} \\
+
+
+Office Hours: T/Th 1:45-3pm Shelby 3101F (Additional hours before projects are due) \\  
+Class: T/Th 12:30-1:45pm Shelby 1120 \\
+
+\hline
+\end{tabular*}
+
+\vspace{5 mm}
+
+% First Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Course Description}
+This course is a broad introduction to computational genomics and transcriptomics. We will cover algorithms for analyzing DNA and RNA sequencing data. This will include sequence analysis, comparison, search, genome assembly, and analysis of RNA data including bulk and single cell sequencing. This will include statistical modeling and inference of biological data. We will also cover practical skills, software tools, and pipelines used in the bioinformatics industry.
+
+% Second Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Course Materials}
+
+\begin{itemize}
+\item Lecture notes will be made available on Canvas.
+\item Lecture videos will be available on Canvas.
+\item Slides will also be available on Canvas.
+\end{itemize}
+
+% Third Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Prerequisites/Corequisites}
+Prerequisites: Introduction to Algorithms, Discrete Math, Linear Algebra, or Departmental Approval
+
+% Fourth Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Course Objectives}
+Successful students:
+\begin{enumerate}
+\item Understand and implement core alignment algorithms
+\item Recognize problems that are applicable to hidden markov models, and solve those problems
+\item Can describe the properties of problems that make dynamic programming a viable algorithmic technique
+\item Have familiarity with a broad set of biological concepts in genomics and transcriptomics
+\item Can describe and run standard genomics pipelines and analyze and visualize results
+\item Understands RNA and single cell RNAseq basic analysis
+\end{enumerate}
+
+% Fifth Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Course Structure}
+
+\subsection*{Assignments}
+Assignments will include problem sets and larger projects. Problem sets should take no longer than 2 hours. Projects will involve coding a solution to a problem in python (with the last project being a practical bioinformatics project using bash and open source software to analyze a dataset). The assignment sheet will make it clear what part of the project should be coded without specialized packages. General portions of packages such as numpy will always be allowed.
+
+\subsection*{Grading}
+Your letter grade will follow the standard numerical scale -- A: [90, 100], B:[80, 90), C: [70, 80), D: [60, 70), F: [0, 60) \\
+\begin{enumerate}
+\item \textbf{Exams} (35\%): Midterm: 15\%, Final: 20\% 
+\item \textbf{Homeworks} 15\%
+\item \textbf{Class participation} 10\%
+\item \textbf{Projects} 40\% (3 projects -- grad students will have additional requirements for these projects)
+\end{enumerate}
+
+The final exam will be given on the last day of the course and not on the day designated in the final exam schedule.
+
+% Add a figure %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% Fifth Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\section*{Course Policies}
+
+\subsection{Attendance}
+Class attendance is not mandatory except for the exam days. But because class participation is 10\% of your grade, regular attendance is highly encouraged. Phones should be on silent and any audible ring or notification will result in public shaming.
+\subsection{Excused Absences}
+Excused Absences only apply to the cases of mid-term and final examination. Students are granted excused absences from class for the following reasons: Illness of the student or serious illness of a member of the student?s immediate family, death of a member of the student?s immediate family, trips for student organizations sponsored by an academic unit, trips for University classes, trips for participation in intercollegiate athletic events, subpoena for a court appearance and religious holidays. Students who wish to have an excused absence from this class for any other reason must contact the instructor in advance of the absence to request permission. The instructor will weigh the merits of the request and render a decision. When feasible, the student must notify the instructor prior to the occurrence of any excused absences, but in no case shall such notification occur more than one week after the absence. Appropriate documentation for all excused absences is required. 
+\subsection{Make-Up Policy}
+Arrangements to make up missed major examination (e.g. mid-term exams) due to properly authorized excused absences. Except in unusual circumstances, such as continued absence of the student or the advent of University holidays, a make-up exam will take place within two weeks from the time the student initiates arrangements for it. 
+\subsection{ADA Policy}
+Students who need accommodations are asked to electronically submit their approved accommodations through AU Access and to make an individual appointment with the instructor during the first week of classes --- or as soon as possible if accommodations are needed immediately. If you have not established accommodations through the Office of Accessibility, but need accommodations, make an appointment with the Office of Accessibility, 1228 Haley Center, 844-2096 (V/TT).
+\subsection{Academic Honesty}
+All portions of the Auburn University Student Academic Honesty code (Title XII) found in the Student Policy eHandbook at http://www.auburn.edu/student\_info/student\_policies/ will apply to this class. All academic honesty violations or alleged violations of the SGA Code of Laws will be reported to the Office of the Provost, which will then refer the case to the Academic Honesty Committee.
+
+% Course Schedule %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\section*{Schedule and weekly learning goals}
+The schedule is tentative and subject to change. The learning goals below should be viewed as the key concepts you should grasp after each week, and also as a study guide before each exam, and at the end of the semester. Each exam will test on the material that was taught up until 1 week prior to the exam.
+% Set first date of the semester (for some reason this is a week before what comes up, but that's easy to get around)
+\SetDate[03/01/2022]
+\week{Week 01} Alignment Introduction
+\begin{itemize}
+\item Introduction to Dynamic Programming
+\item Sequence alignment algorithm(s)
+\end{itemize}
+
+\week{Week 02} Probability and Statistics
+\begin{itemize}
+\item Bayes Theorem
+\item Likelihoods vs probabilities and maximum likelihood estimation
+\item Distributions and the physical processes that produce them
+\end{itemize}
+
+\week{Week 03} Statistical modeling and inference
+\begin{itemize}
+\item How to model complex processes with distributions
+\item Statistical Inference via EM or numerical optimization
+\end{itemize}
+
+\week{Week 04} Biology Background
+\begin{itemize}
+\item Nucleic acid structure
+\item Double Helix
+\item Central Dogma of Molecular Biology
+\item Structure of the genome and genes
+\end{itemize}
+
+\week{Week 05} Further Biology Background
+\begin{itemize}
+\item RNA, tRNA, rRNA, amino acids, proteins
+\item DNA sequencing technologies
+\end{itemize}
+
+\week{Week 06} Alignment revisited
+\begin{itemize}
+\item Global, semi-global, local alignment
+\item Backtrace/Viterbi algorithm revisited
+\item Scoring model
+\item Protein sequence alignment and scoring
+\end{itemize}
+
+\week{Week 07} Hidden Markov Models (HMM)
+\begin{itemize}
+\item Observed and Hidden states
+\item Optimal state sequence via dynamic programming and Viterbi algorithm
+\item Forward-Backward algorithm for probabilistic underlying states
+\end{itemize}
+
+\week{Week 08} Alignment revisited again and \textbf{Exam 1}
+\begin{itemize}
+\item Sequence alignment as pair-HMM
+\item Forward-Backward algorithm for probabilistic alignments
+\end{itemize}
+
+\week{Week 09} Spring Break
+
+\week{Week 10} Multiple sequence alignment
+\begin{itemize}
+\item Dynamic programming - Optimal but intractable
+\item Partial order alignment
+\item Guide trees and other popular MSA methods
+\end{itemize}
+
+\week{Week 11} Kmers
+\begin{itemize}
+\item Exact matching
+\item Counting
+\item Bloom filters
+\item De brujin graphs and genome assembly
+\end{itemize}
+
+\week{Week 12} Genome Indexes
+\begin{itemize}
+\item Prefix/suffix trees
+\item Suffix array
+\item Burrows wheeler transform and the FM-index (mostly for historical context)
+\item Minimizers
+\end{itemize}
+
+\week{Week 13} Bioinformatics practical
+\begin{itemize}
+\item File Formats
+\item Resequencing workflow
+\item Software tools
+\end{itemize}
+
+\week{Week 14} RNA sequencing analysis
+\begin{itemize}
+\item Gene counts and differential expression
+\item Single cell sequencing
+\item Cell barcode detection
+\end{itemize}
+
+\week{Week 15} RNA sequencing analysis continued
+\begin{itemize}
+\item Doublet detection
+\item Cell type clustering, annotation
+\end{itemize}
+
+\week{Week 16} Spillover week or special topics / research plug
+
+\section{Statements}
+\subsection{Diversity \& Inclusion}
+It is my intent that students from all diverse backgrounds and perspectives be well served by this course, that students? learning needs be addressed both in and out of class, and that the diversity that students bring to this class be viewed as a resource, strength and benefit. It is my intent to present materials and activities that are respectful of diversity: gender, religion, sexuality, disability, age, socioeconomic status, veteran status, ethnicity, race, and culture. All students in this course are expected to respect their fellow classmates and actively participate in fostering an inclusive learning environment.  If you experience anything in this class that makes you feel uncomfortable, please bring it to my attention and we will formulate a response.  If you would prefer to remain anonymous you may complete a Bias Incident Report which will maintain your confidentiality at: 
+http://studentaffairs.auburn.edu/bert/submit-a-report-of-bias/ \\ \\
+Your suggestions are encouraged and appreciated. Please let me know ways to improve the effectiveness of the course for you personally or for other students or student groups.
+
+
+\end{document}
