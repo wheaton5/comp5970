@@ -102,7 +102,18 @@ p(\text{binom}, p_i | D) = \frac{p(D|\text{binom}, p_i)p(\text{binom}, p_i)}{p(D
 \end{equation}
 This is generally done in log space for numerical stability reasons. In the floating point representation in computers, there is a limited number of possible values extremely near 0, but the log of a probability very near 0 has much more dynamic range in the floating point representation. The one wrinkle to this comes in the denominator.
 \begin{equation}
-log(p(\text{binom}, p_i | D)) = log(p(D|\text{binom}, p_i)) + log(p(\text{binom}, p_i)) - \text{logsumexp}(log(p(D|\text{binom}, p_1)) + log(p(\text{binom}, p_1)), log(p(D|\text{binom}, p_2)) + log(p(\text{binom}, p_2)), log(p(D|\text{binom}, p_3)) + log(p(\text{binom}, p_3)))
+\begin{split}
+log(p(\text{binom}, p_i | D)) = \\
+& log(p(D|\text{binom}, p_i)) + log(p(\text{binom}, p_i)) - \\
+& 
+\begin{split}
+\text{logsumexp}( \\
+& log(p(D|\text{binom}, p_1)) + log(p(\text{binom}, p_1)), \\
+& log(p(D|\text{binom}, p_2)) + log(p(\text{binom}, p_2)), \\
+& log(p(D|\text{binom}, p_3)) + log(p(\text{binom}, p_3)) \\
+&)
+\end{split}
+\end{split}
 \end{equation}
 The logsumexp function takes the log of the sum of $e^x$ as it says and can be implemented in a numerically stable way. Make sure to use packages that have implemented this function and if you need to implement it yourself, look up how to do so to keep in numerically stable.
 \\ \\
