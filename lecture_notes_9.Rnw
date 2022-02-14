@@ -215,11 +215,11 @@ def forward_backward(observed, priors, transitions, probabilities):
     # transitions s_{i,j} is 2x2 for from state x to state
     # probabilities 2x2 with state x [cg_prob, 1-cg prob]
     forward = np.zeros((2,len(observed)))
-    forward[0][0] = np.log(priors[0])
+    forward[0][0] = np.log(priors[0]) # compute in log space for numerical stability
     forward[1][0] = np.log(priors[1])
     
     log_transitions = np.zeros((2,2))
-    log_probabilities = np.zeros((2,2))
+    log_probabilities = np.zeros((2,2)) # convert inputs to log space
     for i in range(2):
         for j in range(2):
             log_transitions[i][j] = np.log(transitions[i][j])
@@ -227,16 +227,23 @@ def forward_backward(observed, priors, transitions, probabilities):
             
     # forward algorithm
     for t in range(1, len(observed)):
-        CG = 1
+        CG = 1 # to index into probabilities, 1th entry is for no CG
         if observed[t-1:t+1] == "CG":
-            CG = 0
+            CG = 0 # 0th entry is for CG
         
+        # loop over current state
         for current_state in range(2):
+            # build log probs array for coming from each previous state with list comprehension.
+            # in log space we add instead of multiply
             log_probs = [forward[previous_state][t-1] +
                          log_transitions[current_state][previous_state] +
                          log_probabilities[current_state][CG]
                         for previous_state in range(2)] 
+            # because we want to add probabilities here
+            # but we are in log space, we use a numerically stable
+            # function logsumexp
             forward[current_state][t] = scipy.special.logsumexp(log_probs)
+            
     # backward algorithm
     backward = np.zeros((2, len(observed)))
     backward[0][len(observed)-1] = np.log(priors[0])
@@ -250,17 +257,23 @@ def forward_backward(observed, priors, transitions, probabilities):
                         log_transitions[previous_state][current_state] +
                         log_probabilities[current_state][CG] for previous_state in range(2)] 
             backward[current_state][t] = scipy.special.logsumexp(log_probs)
+            
     # normalization
     posterior = np.zeros((2, len(observed)))
     x = []
     posteriors = []
     for t in range(len(observed)):
+        # build an array of F*B for all states at time t
         denoms = [forward[state_j][t] + backward[state_j][t] for state_j in range(2)]
+        # sum the probabilities, but in log space logsumexp
         denom = scipy.special.logsumexp(denoms)
+        
         for state in range(2):
+            # posterior is F_s_i(t)B_s_i(t)/sum_j(F_s_j(t)B_s_j(t))
+            # but in log space we add and subtract.
             posterior[state][t] = np.exp(forward[state][t] + backward[state][t] - denom)
         x.append(t)
-        posteriors.append(posterior[0][t])
+        posteriors.append(posterior[0][t]) #return posteriors for 0th state for visualization
     return(x, posteriors)
 @
 

@@ -81,10 +81,10 @@ A Markov chain, or Markov process assumes that a sequence of events is randomly 
 In our example, we will have two states, or models---one in which the sequence was generated from a CpG island and one in which the sequence was generated from background genomic sequence. Each of these will be modeled with a \textit{Bernoulli} distribution in which the sequence CG occurs at position $t$ with some probability. State 0 will represent the data being generated from a CpG island and state 1 will represent the data coming from backgrand genomic sequence. We will have a \textbf{transition probability matrix} of the chance of being in state $i$ at time $t$ and state $j$ at time $t+1$. To make all of this more clear, let's make some definitions for our notation. \\
 \textbf{Definitions}
 \begin{itemize}
-\item[$s_i$] State $i$
-\item[$t$] Position $t$ in the sequence. Hidden Markov models are often used in time series data, and while we are using them for sequence data, $p$ for position is overloaded with probability
-\item[$D_t$] observed data at time $t$ (CG or not CG)
-\item[$s_{i,j}$] Transition probability of going from state $i$ to state $j$.
+\item $s_i$  State $i$
+\item $t$  Position $t$ in the sequence. Hidden Markov models are often used in time series data, and while we are using them for sequence data, $p$ for position is overloaded with probability
+\item $D_t$  observed data at time $t$ (CG or not CG)
+\item $s_{i,j}$  Transition probability of going from state $i$ to state $j$.
 \end{itemize}
 So our transition matrix may look like
 \begin{center}
@@ -112,11 +112,17 @@ So we choose the maximum previous state times the transition probability from th
 \begin{tabular}{ | c | c | c | c | c | c | c | c | }
 \multicolumn{8}{c}{$t$} \\
 \hline
- $s_0$ & $\pi_0$ & $max_j(hmm[j][t-1]*s_{j,0})p(D_t|s_0)$ & ..& .. & .. &.. &.. \\
+ $s_0$ & $\pi_0$\tikzmark{a} & \tikzmark{c}$max_j(hmm[j][t-1]*s_{j,0})p(D_t|s_0)$ & ..& .. & .. &.. &.. \\
   \hline
- $s_1$ & $\pi_1$ & $max_j(hmm[j][t-1]*s_{j,1})p(D_t|s_1)$ & ..& ..& .. & ..&.. \\
+ $s_1$ & $\pi_1$\tikzmark{b} & \tikzmark{d}$max_j(hmm[j][t-1]*s_{j,1})p(D_t|s_1)$ & ..& ..& .. & ..&.. \\
   \hline
 \end{tabular}
+\begin{tikzpicture}[overlay, remember picture, shorten >=.5pt, shorten <=.5pt, transform canvas={yshift=.25\baselineskip}]
+    \draw [->] ([yshift=.75pt]{pic cs:c}) to ([yshift=.75pt]{pic cs:a});
+    \draw [->] ([yshift=.75pt]{pic cs:c}) -- ([yshift=.75pt]{pic cs:b});
+    \draw [->] ([yshift=-.75pt]{pic cs:d}) -- ([yshift=-.75pt]{pic cs:b});
+        \draw [->] ([yshift=-.75pt]{pic cs:d}) -- ([yshift=-.75pt]{pic cs:a});
+  \end{tikzpicture}
 \end{center}
 
 We also keep a backtrace matrix of the state from which we came at every cell. And at the end, we choose the maximum likelihood state at the final timepoint and we run the Viterbi backtrace algorithm from that point to the beggining for the optimal state sequence for this data.
