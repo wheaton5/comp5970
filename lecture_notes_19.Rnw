@@ -1,0 +1,135 @@
+\documentclass{article}
+
+\usepackage{algpseudocode}
+\usepackage[sc]{mathpazo}
+\usepackage[T1]{fontenc}
+\usepackage[left=1in,top=1in,right=1in,bottom=1in,headheight=3ex,headsep=3ex]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{tikzmark}
+\usetikzlibrary{matrix}
+\usepackage{chemfig}
+\renewcommand*\printatom[1]{\ensuremath{\mathsf{#1}}}
+
+
+\usepackage{amsmath}
+\DeclareMathOperator*{\argmax}{\arg\!\max} 
+\newcommand{\blankline}{\quad\pagebreak[2]}
+\geometry{verbose,tmargin=2.5cm,bmargin=2.5cm,lmargin=2.5cm,rmargin=2.5cm}
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+    pdfpagemode=FullScreen,
+    }
+    \setlength{\parindent}{0pt}
+
+
+\begin{document}
+
+
+
+\title{COMP 5970/6970-004 \\ Computational Biology: Genomics and Transcriptomics \\ Lecture notes 18: 3/22/2022 }
+\author{Haynes Heaton}
+\date{Spring, 2022}
+
+
+\maketitle
+\blankline
+
+\begin{tabular*}{.93\textwidth}{@{\extracolsep{\fill}}lr}
+<<setup, include=FALSE, cache=FALSE>>=
+library(knitr)
+library(reticulate)
+py_available(T)
+py_numpy_available(T)
+knitr::knit_engines$set(python3 = reticulate::eng_python)
+#knitr::opts_chunk$set(python.reticulate = F)
+
+#use_python("~/anaconda3/bin/python")
+# set global chunk options
+#knitr::opts_chunk$set(engine.path = list(python = '~/anaconda3/bin/python'))
+#knitr::opts_chunk$set(fig.path='figure/minimal-', fig.align='center', fig.show='hold')
+#options(formatR.arrow=TRUE,width=90)
+@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Modify information %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\hline
+\end{tabular*}
+
+
+\section*{Lecture Objectives}
+\begin{itemize}
+\item Evolution - what exists either persists or replicates
+\item Storing data biologically for evolution
+\item Stable and redundant biological data storage and replication
+\item Central dogma of molecular biology
+\end{itemize}
+
+\section{Evolution as observation bias}
+
+What exists either persists or replicates. And what replicates must exist long enough to replicate. Biological systems strive for both to different degrees. The cell maintains this low entropy state with its cell membrane and has developed many different mechanisms for self-repair. And more complex multicellular organisms have developed systems to fight off external attacks (the immune system) and heal injuries. In terms of replication, very simple systems might follow chemical signals to make more or less of each component and split into two when possible. 
+
+\section{Storing data biologically for evolution}
+
+But eventually a blueprint is needed to map out what to do in different environments and for replication to be possible there, the blueprint must also be replicated. In computers, binary numbers are used to store information. In biology, \textbf{nucleotides} are used to store information. Initially, it is believed life used \textbf{ribonucleic acids}, or RNA to store information. RNA is a polymer of \textbf{ribonucleotides}. Each nucleotide consists of a purine (Adenine (A) or Guanine (G)) base or pyrimidine (Cytosine (C) or Uracil (U)) base and a ribose ring. These ribose rings can be bound to one another in series with a phosphate group creating a phosphate bond.  \\
+
+\includegraphics[width=0.75\textwidth]{rnastructure.png}\\\\
+
+The carbon atoms in the ribose are numbered 1 to 5 as shown above with the 3rd and 5th carbon binding to either phosphate bond. With this we can describe a direction of the RNA sequence as either 5' to 3' or 3' to 5'. This will be important later.  \\ \\
+
+RNA is a very special molecule as it can act as information storage as well as fold into complex 3D shapes and carry out specific biochemical tasks similar to enzymes. These are called ribozymes. RNA is capable of enzymatically replicating other RNA. This is why it is believed that RNA was the first molecule used to transmit genetic information and that before DNA, life consisted of an RNA world.
+
+\section{Stable and redundant biological data storage and replication}
+
+RNA can form a double stranded molecule with its reverse complement molecule, but due to the hydroxyl group on the 2' carbon of the ribose, the double stranded molecule is not stable and the strands will dissociate at moderate temperatures. Evolution eventually found that removing this hydroxyl group could produce a much more stable molecule, \textbf{deoxyribonucleic acid, or DNA}. \\ \\
+
+\includegraphics[width=0.75\textwidth]{dnastructure.png} \\\\
+
+DNA is very similar to RNA, but the ribose is missing a hydroxyl group on the 2' carbon giving less steric inhibition to the formation of the double stranded structure. And DNA has Thymine in place of Uracil which is simply a methylated version of Uracil. As you can see, Each purine can create hydrogen bonds with one pyrimidine. Adenines bind with Thymines and Guanines bind with Cytosines. Of note, Guanine-Cytosine bonds contain three hydrogen bonds whereas Adenine-Thymine bonds contain two. This makes the double strand structure stronger the more GC pairs in the region. \\\\
+The angles of these bonds and other minor interactions create a helical structure which also strengthens the overall chemical stability. Because of the double stranded nature of this helical structure, it is termed a \textbf{double helix}. 
+
+\section{The central dogma of molecular biology}
+
+The central dogma of molecular biology states that in general, the flow of information in most organisms goes from DNA to RNA to protein. And proteins carry out the various functions of the cell. This idea is broken in a many ways, but is in general true. \\ \\ Some examples of how it is broken is that \\ \\
+
+But in general, messenger RNA (mRNA, yes, the same stuff in the covid vaccines) is \textbf{transcribed} from DNA and proteins, or polypeptides (explained further soon) are \textbf{translated} from mRNA. As a short aside, it was often stated that the vaccine was designed in two days. This was very surprising to many people, but not to people who know the technologies that exist. The secret sauce of the vaccine is actually some lipid surfactants that encapsulate the mRNA and then fuse with the cell membrane allowing the mRNA to enter the cell. Other than that, we just need the sequence of the spike protein and we have technologies for synthesizing a particular sequence of RNA or DNA up to some length. So really, a draft of the vaccine could have been made in, idk, maybe 15 minutes. \\ \\
+Okay back to the central dogma. The reason the words transcribed and translated are used is very simple. Because DNA and RNA share a four letter alphabet, there is a one to one correspondence of these letters. Three of the letters are identical. The only difference is that in RNA, Uracil take the place of Thymine in DNA. So this simple copying is termed transcription. But because there are 20 possible amino acids, a single DNA or RNA base cannot code for uniquely one amino acid. Nor can two DNA bases code for a unique amino acid as $4^2$ is 16. It requires three bases to code for all of the amino acids uniquely. These three base segments which code for an amino acid are termed \textbf{codons}. But $4^3 = 64$, so there are more codons than there are amino acids. Now what is the structure of the amino acid.
+
+\includegraphics[width=0.5\textwidth]{aminoacidstructure.jpeg} \\\\
+Proteins are chains of amino acids. These are alternatively call \textbf{polypeptides} because they are linked by peptide bonds. The amino group of one amino acid and the carboxyl group of another amino acid react to create a peptide bond and a water molecule.
+
+\includegraphics[width=0.5\textwidth]{polypeptide.png}
+
+And what does this degenerate coding of codons for amino acids look like?
+
+\includegraphics[width=1\textwidth]{codons.png} \\\\
+
+So how are polypeptides with a particular sequence of amino acids constructed from the messenger RNA information? Well, there are several additional types of RNA that help in this endeavor. First is the \textbf{transfer RNA or tRNA}. The tRNA is a piece of RNA that is folded on itself using the base pair binding like DNA does but in a way to create a particular shape in which one end binds to a particular amino acid and the other end has the complementary sequence of the codon that codes for that amino acid. And then there are two other arms which interact with our next type of RNA. \\
+
+\includegraphics[width=0.5\textwidth]{tRNA.png}
+
+\textbf{Ribosomes, or ribosomal RNA, or rRNA} are functional macromolecules made from RNA and are similar to proteins in that they catalyze specific chemical reactions. Two different ribosomes together catalyze the translation of mRNA to protein. \\ 
+
+\includegraphics[width=0.5\textwidth]{ribosome.jpeg}
+
+The ribosome holds the mRNA and accepts tRNA with complementary tRNA anticodon sequences to the mRNA which are in \textbf{frame} (a frame is where the codon starts. the frame starts at the start codon of the mRNA and then proceeds in non overlapping 3 bases at a time).
+
+\section{Mutations}
+
+Because of the degeneracy of the codon coding system, different mutations can have different effects. If a mutation does not change the amino acid the gene codes for, this is called a \textbf{synonomous mutation}. These of course will not change the shape or function of the protein. If the mutation changes the amino acid sequence, but does not introduce a stop codon, this is termed a \textbf{missense or non-synonymous mutation}. These may or may not change the shape or function of the protein depending on what the change was and where in the protein it occurs. If the mutation puts an early stop codon in frame, this is called a \textbf{nonesense mutation} and almost always kills the function of the protein. In the case of insertions and deletions, if they are not a multiple of 3, this creates a \textbf{frame shift mutation} changing all amino acids downstream of the mutation and also gives a high probability of putting an early stop codon in frame thus killing the function of the protein.
+%\section{Genes}
+
+%A simple gene in a prokaryotic organism (will go over this term later) is a stretch of DNA with a start codon (ATG which codes for methionine) and ends when an in frame stop codon exists (TAA, TAG, and TGA). 
+
+
+
+\end{document}
